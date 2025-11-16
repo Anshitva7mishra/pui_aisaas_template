@@ -1,0 +1,55 @@
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8AD0DA"/>
+      <stop offset="50%" stop-color="#479ED3"/>
+      <stop offset="100%" stop-color="#3BD7C0"/>
+    </linearGradient>
+
+    <!-- subtle drop shadow -->
+    <filter id="f1" x="-30%" y="-30%" width="160%" height="160%">
+      <feOffset dx="0" dy="6" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.03  0 0 0 0 0.06  0 0 0 0 0.09  0 0 0 0.6" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- rounded background with gradient and shadow -->
+  <g filter="url(#f1)">
+    <rect x="2" y="2" width="40" height="40" rx="10" fill="url(#g1)"/>
+  </g>
+
+  <!-- Layers glyph (three stacked chevrons / "layers") -->
+  <g transform="translate(0,0)" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- top layer (higher) -->
+    <path d="M22 11.2l8.6 4.8L22 20.8 13.4 16 22 11.2z" opacity="1" />
+    <!-- middle layer -->
+    <path d="M22 16.6l8.6 4.8L22 26.2 13.4 21.4 22 16.6z" opacity="1" />
+    <!-- bottom layer (slightly larger feel) -->
+    <path d="M22 22.0l9.8 5.4L22 33.0 12.2 27.4 22 22z" opacity="1" />
+  </g>
+
+  <!-- Code glyph (</>) slightly lower: white with ~90% opacity -->
+  <g transform="translate(0,1)" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- left chevron -->
+    <path d="M14.2 20.6 L18.6 24.0 L14.2 27.4" />
+    <!-- right chevron -->
+    <path d="M29.8 20.6 L25.4 24.0 L29.8 27.4" />
+    <!-- slash -->
+    <path d="M20.6 18.6 L23.4 29.4" />
+  </g>
+
+  <!-- sparkle (small) in the top-right - white with 0.8 opacity -->
+  <g transform="translate(0,0)" fill="#FFFFFF" fill-opacity="0.8" stroke="none">
+    <!-- small 4-point sparkle -->
+    <path d="M32.6 5.6
+             c0.0 1.2 0.9 2.2 2.1 2.2 1.2 0 2.1-1.0 2.1-2.2 0-1.2-0.9-2.2-2.1-2.2 -1.2 0-2.1 1.0-2.1 2.2z
+             M33.8 7.2 l0.9 1.8 1.8 0.9 -1.8 0.9 -0.9 1.8 -0.9-1.8 -1.8-0.9 1.8-0.9 0.9-1.8z" />
+    <!-- tiny dot highlight -->
+    <circle cx="35" cy="6.2" r="0.9" />
+  </g>
+</svg>

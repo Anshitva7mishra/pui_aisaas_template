@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-md: 760px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: "Inter", sans-serif;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    background-color: #000;
+    color: white;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  pre, code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    font-size: 13px;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/10;
+  }
+
+  .show-menu-from-600,
+  .show-brand-from-600,
+  .show-actions-from-600 {
+    display: none !important;
+  }
+
+  @media (min-width: 600px) and (max-width: 1023px) {
+    .show-menu-from-600 { display: inline-flex !important; }
+    .show-brand-from-600 { display: inline !important; }
+    .show-actions-from-600 { display: inline-flex !important; }
+  }
+
+  .show-on-mobile { display: block !important; }
+  @media (min-width: 600px) {
+    .show-on-mobile { display: none !important; }
+  }
+
+  .hide-on-tablet { display: block !important; }
+  @media (min-width: 600px) and (max-width: 1023px) {
+    .hide-on-tablet { display: none !important; }
+  }
+
+  .scroller {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+  }
+
+  .scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroller {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scroller-item {
+    scroll-snap-align: start;
+    -webkit-scroll-snap-align: start;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .snap-x { scroll-snap-type: x mandatory; }
+  .snap-start { scroll-snap-align: start; }
+
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .animate-blink { animation: blink 1s step-end infinite; }
+
+  .ai-suggestion-popover {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 50;
+    max-width: 320px;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid rgba(148,163,184,0.06);
+    box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: #e6eef8;
+  }
+
+  @keyframes ai-marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-ai-marquee {
+    display: inline-flex;
+    animation-name: ai-marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  :root {
+    --scrollbar-thumb: rgba(120,130,150,0.18);
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .pop-btn { padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 6px; }
+
+  .minimal-card {
+    background: #07080b;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(2,4,8,0.45);
+  }
+
+  .preview-compact {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.03);
+    padding: 0.75rem;
+  }
+
+  .copy-small {
+    @apply text-xs px-2 py-1 rounded bg-slate-800/60;
+  }
+
+  .tiny-label {
+    @apply text-[11px] text-slate-400 uppercase tracking-wide;
+  }
+
+  .preview-h-36 {
+    max-height: 9rem;
+    overflow: auto;
+  }
+
+  .preview-h-36::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preview-h-36 {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 rounded-full bg-linear-to-r from-blue-500 to-sky-400 text-black font-semibold shadow-lg;
+  }
+
+  .btn-outline {
+    @apply px-4 py-2 rounded-full border border-white/20 text-white font-medium;
+  }
+}
