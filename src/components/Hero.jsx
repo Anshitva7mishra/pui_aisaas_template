@@ -1,157 +1,13 @@
-import  { useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, ImageIcon, CheckCircle, Box, ArrowRight } from "lucide-react";
 
-export default function Hero({ onNodeClick } = {}) {
-  const nodesLeft = [
-    {
-      id: "planning",
-      title: "Planning",
-      subtitle: "PoC / Specs",
-      icon: <Zap size={16} />,
-    },
-    {
-      id: "sketch",
-      title: "Sketch",
-      subtitle: "UI",
-      icon: <ImageIcon size={14} />,
-    },
-  ];
-  const nodesRight = [
-    {
-      id: "improve",
-      title: "Improve",
-      subtitle: "Optimize",
-      icon: <CheckCircle size={14} />,
-    },
-    {
-      id: "build",
-      title: "Build the",
-      subtitle: "messs app",
-      icon: <Box size={14} />,
-    },
-  ];
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
-  const containerRef = useRef(null);
-  const centerRef = useRef(null);
-  const leftIconRefs = useRef([]);
-  const rightIconRefs = useRef([]);
-
-  const [svgSize, setSvgSize] = useState({ w: 1200, h: 380 });
-  const [paths, setPaths] = useState({});
-  const [hoverLeft, setHoverLeft] = useState(null);
-  const [hoverRight, setHoverRight] = useState(null);
-
-  function buildBezierPath(x1, y1, x2, y2) {
-    const dx = Math.max(40, Math.abs(x2 - x1) * 0.36);
-    const goingRight = x2 > x1;
-    const cp1x = x1 + (goingRight ? dx : -dx);
-    const cp2x = x2 - (goingRight ? dx : -dx);
-    return `M ${x1} ${y1} C ${cp1x} ${y1}, ${cp2x} ${y2}, ${x2} ${y2}`;
-  }
-
-  useLayoutEffect(() => {
-    if (!containerRef.current || !centerRef.current) return;
-    const compute = () => {
-      const cont = containerRef.current.getBoundingClientRect();
-      const center = centerRef.current.getBoundingClientRect();
-      const centerLeftX = Math.round(center.left - cont.left + 8);
-      const centerRightX = Math.round(center.right - cont.left - 8);
-      const centerMidY = Math.round(center.top - cont.top + center.height / 2);
-      const getIconCenter = (el) => {
-        if (!el) return null;
-        const r = el.getBoundingClientRect();
-        return [
-          Math.round(r.left - cont.left + r.width / 2),
-          Math.round(r.top - cont.top + r.height / 2),
-        ];
-      };
-      const lTop = getIconCenter(leftIconRefs.current[0]);
-      const lBottom = getIconCenter(leftIconRefs.current[1]);
-      const rTop = getIconCenter(rightIconRefs.current[0]);
-      const rBottom = getIconCenter(rightIconRefs.current[1]);
-      setPaths({
-        leftTop: buildBezierPath(
-          lTop?.[0],
-          lTop?.[1],
-          centerLeftX,
-          centerMidY - 6
-        ),
-        leftTopPt: lTop,
-        leftBottom: buildBezierPath(
-          lBottom?.[0],
-          lBottom?.[1],
-          centerLeftX,
-          centerMidY + 26
-        ),
-        leftBottomPt: lBottom,
-        rightTop: buildBezierPath(
-          rTop?.[0],
-          rTop?.[1],
-          centerRightX,
-          centerMidY - 6
-        ),
-        rightTopPt: rTop,
-        rightBottom: buildBezierPath(
-          rBottom?.[0],
-          rBottom?.[1],
-          centerRightX,
-          centerMidY + 26
-        ),
-        rightBottomPt: rBottom,
-      });
-      setSvgSize({ w: Math.round(cont.width), h: Math.round(cont.height) });
-    };
-    compute();
-    let ro = new ResizeObserver(compute);
-    ro.observe(containerRef.current);
-    ro.observe(centerRef.current);
-    leftIconRefs.current.forEach((el) => el && ro.observe(el));
-    rightIconRefs.current.forEach((el) => el && ro.observe(el));
-    const t = setTimeout(compute, 150);
-    return () => {
-      ro.disconnect();
-      clearTimeout(t);
-    };
-  }, []);
-
-  function handleNodeClick(id) {
-    if (typeof onNodeClick === "function") onNodeClick(id);
-  }
-
-  const nodeBtnClass =
-    "relative w-full bg-black/45 border border-sky-800/18 rounded-2xl px-3 py-2 flex items-center gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:scale-[1.02] transition-transform duration-150";
-
-  const baseStroke = {
-    stroke: "url(#strokeGrad)",
-    strokeWidth: 2.2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    fill: "none",
-    opacity: 0.96,
-  };
-
-  const page = {
-    hidden: { opacity: 0, y: 8 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { staggerChildren: 0.08, when: "beforeChildren" },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 6 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
-  };
-
+export default function Hero() {
   return (
-    <motion.section
-      initial="hidden"
-      animate="show"
-      variants={page}
-      className="relative overflow-hidden bg-black"
-    >
+    <section className="relative overflow-hidden bg-black text-white pt-20 pb-32">
       <div
         className="absolute inset-0 -z-10 pointer-events-none"
         style={{
@@ -160,365 +16,375 @@ export default function Hero({ onNodeClick } = {}) {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-12">
-        <motion.div variants={item} className="text-center mb-6">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-6">
           <div
             className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-black/55 border border-white/10 text-sm text-white/90 shadow-sm"
             style={{ backdropFilter: "blur(6px)" }}
           >
             <span className="flex items-center justify-center w-6 h-6 rounded-full bg-linear-to-br from-sky-500/20 to-sky-400/10 border border-sky-700/20">
-              <Box size={14} className="text-sky-300" />
+              <span className="text-sky-300">📦</span>
             </span>
             <span className="font-medium">Design with</span>
             <span className="ml-1 font-semibold text-sky-300">ProjectUI</span>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={item}
-          className="text-center max-w-4xl mx-auto px-2"
-        >
-          <motion.h1
-            variants={item}
-            className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight"
+        <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight text-center">
+          Deliver Interfaces Faster &amp;{" "}
+          <span className="text-slate-200/90">Seamless</span> with{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage: "linear-gradient(90deg,#5fb4ff,#2fa8ff,#1bd1ff)",
+            }}
           >
-            Deliver Interfaces Faster &amp;{" "}
-            <span className="text-slate-200/90">Seamless with</span>{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg,#5fb4ff,#2fa8ff,#1bd1ff)",
-              }}
-            >
-              AI
-            </span>
-          </motion.h1>
+            AI
+          </span>
+        </h1>
 
-          <motion.p
-            variants={item}
-            className="mt-4 text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto"
+        <p className="mt-4 text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto text-center">
+          Plan with delight and intelligence while bringing ideas to production.
+        </p>
+
+        <div className="flex justify-center mt-8">
+          <button
+            className="px-10 py-3 rounded-full font-semibold text-black shadow-lg transition-transform duration-200"
+            style={{
+              background: "linear-gradient(90deg, #0D6EFD 0%, #00C6FF 100%)",
+            }}
           >
-            Plan with delight and intelligence while bringing ideas to
-            production.
-          </motion.p>
+            Get Started →
+          </button>
+        </div>
 
-          <motion.div variants={item} className="mt-8">
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleNodeClick("get-started")}
-              className="w-full sm:w-auto max-w-xs mx-auto sm:mx-0 inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full font-semibold text-black shadow-lg transition-transform duration-200 cursor-pointer"
-              style={{
-                background: "linear-gradient(90deg, #0D6EFD 0%, #00C6FF 100%)",
-              }}
+        <div className="mt-20" />
+        <div className="hidden lg:flex relative w-full items-center justify-between gap-14 px-4">
+          <div className="absolute inset-0 opacity-40 pointer-events-none">
+            <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-sky-500/10 blur-[180px]" />
+          </div>
+
+          <div className="relative flex items-center gap-6">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="z-20 bg-[#07101b] px-6 py-3 rounded-full border border-sky-500/30 shadow-[0_0_35px_rgba(56,189,248,0.35)] flex items-center gap-2"
             >
-              Get Started
-              <motion.span whileHover={{ x: 6 }} className="flex items-center">
-                <ArrowRight size={18} className="text-black" />
-              </motion.span>
-            </motion.button>
-          </motion.div>
-        </motion.div>
+              <span className="w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.9)]" />
+              <span className="text-[15px] font-medium">Sketch</span>
+            </motion.div>
 
-        <div className="mt-12 hidden lg:flex justify-center relative">
-          <div className="relative w-full max-w-6xl py-12" ref={containerRef}>
             <svg
-              className="absolute inset-0 w-full h-full z-10 pointer-events-none"
-              viewBox={`0 0 ${svgSize.w} ${svgSize.h}`}
-              preserveAspectRatio="none"
+              className="absolute -left-4 top-1/2 -translate-y-1/2 h-48 w-52"
+              viewBox="0 0 200 200"
             >
               <defs>
-                <filter id="glowSmall">
-                  <feGaussianBlur stdDeviation="3" result="b" />
-                  <feMerge>
-                    <feMergeNode in="b" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <linearGradient id="strokeGrad" x1="0" x2="1">
-                  <stop offset="0%" stopColor="#33b7ff" stopOpacity="0.98" />
-                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.98" />
+                <linearGradient
+                  id="leftFlow"
+                  x1="0%"
+                  y1="50%"
+                  x2="100%"
+                  y2="50%"
+                >
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
                 </linearGradient>
               </defs>
 
-              {paths.leftTop && (
-                <motion.path
-                  d={paths.leftTop}
-                  {...baseStroke}
-                  filter="url(#glowSmall)"
-                  initial={{ pathLength: 0 }}
-                  animate={{
-                    pathLength: 1,
-                    strokeWidth: hoverLeft === 0 ? 3.2 : 2.2,
-                    opacity: hoverLeft === 0 ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.9, ease: "easeOut", delay: 0.12 }}
-                />
-              )}
+              <path
+                d="M10 100 C 70 20, 120 20, 180 70"
+                stroke="url(#leftFlow)"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
 
-              {paths.leftTopPt && (
-                <motion.circle
-                  cx={paths.leftTopPt[0]}
-                  cy={paths.leftTopPt[1]}
-                  r={5.6}
-                  fill="#0ea5e9"
-                  stroke="#031821"
-                  strokeWidth={1.6}
-                  animate={
-                    hoverLeft === 0
-                      ? { scale: [1, 1.18, 1], opacity: [1, 0.9, 1] }
-                      : { scale: 1, opacity: 1 }
-                  }
-                  transition={
-                    hoverLeft === 0
-                      ? { duration: 0.9, repeat: Infinity }
-                      : { duration: 0.2 }
-                  }
-                />
-              )}
-
-              {paths.leftBottom && (
-                <motion.path
-                  d={paths.leftBottom}
-                  {...baseStroke}
-                  filter="url(#glowSmall)"
-                  initial={{ pathLength: 0 }}
-                  animate={{
-                    pathLength: 1,
-                    strokeWidth: hoverLeft === 1 ? 3.2 : 2.2,
-                    opacity: hoverLeft === 1 ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.9, ease: "easeOut", delay: 0.22 }}
-                />
-              )}
-
-              {paths.leftBottomPt && (
-                <motion.circle
-                  cx={paths.leftBottomPt[0]}
-                  cy={paths.leftBottomPt[1]}
-                  r={5.6}
-                  fill="#0ea5e9"
-                  stroke="#031821"
-                  strokeWidth={1.6}
-                  animate={
-                    hoverLeft === 1
-                      ? { scale: [1, 1.18, 1], opacity: [1, 0.9, 1] }
-                      : { scale: 1, opacity: 1 }
-                  }
-                  transition={
-                    hoverLeft === 1
-                      ? { duration: 0.9, repeat: Infinity }
-                      : { duration: 0.2 }
-                  }
-                />
-              )}
-
-              {paths.rightTop && (
-                <motion.path
-                  d={paths.rightTop}
-                  {...baseStroke}
-                  filter="url(#glowSmall)"
-                  initial={{ pathLength: 0 }}
-                  animate={{
-                    pathLength: 1,
-                    strokeWidth: hoverRight === 0 ? 3.2 : 2.2,
-                    opacity: hoverRight === 0 ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.9, ease: "easeOut", delay: 0.32 }}
-                />
-              )}
-
-              {paths.rightTopPt && (
-                <motion.circle
-                  cx={paths.rightTopPt[0]}
-                  cy={paths.rightTopPt[1]}
-                  r={5.6}
-                  fill="#0ea5e9"
-                  stroke="#031821"
-                  strokeWidth={1.6}
-                  animate={
-                    hoverRight === 0
-                      ? { scale: [1, 1.18, 1], opacity: [1, 0.9, 1] }
-                      : { scale: 1, opacity: 1 }
-                  }
-                  transition={
-                    hoverRight === 0
-                      ? { duration: 0.9, repeat: Infinity }
-                      : { duration: 0.2 }
-                  }
-                />
-              )}
-
-              {paths.rightBottom && (
-                <motion.path
-                  d={paths.rightBottom}
-                  {...baseStroke}
-                  filter="url(#glowSmall)"
-                  initial={{ pathLength: 0 }}
-                  animate={{
-                    pathLength: 1,
-                    strokeWidth: hoverRight === 1 ? 3.2 : 2.2,
-                    opacity: hoverRight === 1 ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.9, ease: "easeOut", delay: 0.42 }}
-                />
-              )}
-
-              {paths.rightBottomPt && (
-                <motion.circle
-                  cx={paths.rightBottomPt[0]}
-                  cy={paths.rightBottomPt[1]}
-                  r={5.6}
-                  fill="#0ea5e9"
-                  stroke="#031821"
-                  strokeWidth={1.6}
-                  animate={
-                    hoverRight === 1
-                      ? { scale: [1, 1.18, 1], opacity: [1, 0.9, 1] }
-                      : { scale: 1, opacity: 1 }
-                  }
-                  transition={
-                    hoverRight === 1
-                      ? { duration: 0.9, repeat: Infinity }
-                      : { duration: 0.2 }
-                  }
-                />
-              )}
+              <path
+                d="M10 100 C 70 180, 120 180, 180 130"
+                stroke="url(#leftFlow)"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
             </svg>
 
-            <div className="grid grid-cols-12 gap-4 relative z-20 h-full items-center">
-              <div className="col-span-12 md:col-span-4 flex flex-col items-start pl-6 md:pl-10 justify-center h-full">
-                <div className="w-full max-w-[18rem] space-y-8">
-                  {nodesLeft.map((n, i) => (
-                    <motion.button
-                      key={n.id}
-                      variants={item}
-                      initial="hidden"
-                      animate="show"
-                      onMouseEnter={() => setHoverLeft(i)}
-                      onMouseLeave={() => setHoverLeft(null)}
-                      onClick={() => handleNodeClick(n.id)}
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.12 }}
-                      className={nodeBtnClass}
-                    >
-                      <div
-                        ref={(el) => (leftIconRefs.current[i] = el)}
-                        className="w-9 h-9 rounded-full flex items-center justify-center bg-black/65 border border-sky-800/18 ring-1 ring-sky-900/20 z-10"
-                      >
-                        <div className="text-sky-300">{n.icon}</div>
-                      </div>
+            <div className="z-20 flex flex-col gap-8">
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                animate="show"
+                className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] min-w-[260px]"
+              >
+                <p className="uppercase text-sky-300 tracking-[0.2em] font-medium flex items-center gap-2">
+                  ⚡ Planning
+                </p>
+                <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+                  Quickly outline flows, sections, and user journeys before
+                  building.
+                </p>
+              </motion.div>
 
-                      <div className="text-left flex-1">
-                        <div className="text-white font-semibold text-sm">
-                          {n.title}
-                        </div>
-                        <div className="text-xs text-white/60 mt-0.5">
-                          {n.subtitle}
-                        </div>
-                      </div>
-                    </motion.button>
-                  ))}
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                animate="show"
+                transition={{ delay: 0.15 }}
+                className="rounded-2xl px-8 py-6 bg-[#07101b]/70 border border-sky-400/20 min-w-[260px]"
+              >
+                <p className="uppercase text-sky-200 tracking-[0.2em] font-medium flex items-center gap-2">
+                  🖊️ Sketch
+                </p>
+                <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+                  Convert raw ideas into clean blocks you can later ship as UI.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.2 }}
+            className="relative rounded-[1.8rem] px-10 py-10 bg-[#07101b]/90 border border-sky-500/40 shadow-[0_0_60px_rgba(56,189,248,0.35)] w-[380px]"
+          >
+            <p className="uppercase text-sky-300 tracking-[0.25em] text-[13px]">
+              Build and Prototype Faster
+            </p>
+
+            <p className="text-[12px] text-slate-400 mt-1 mb-6">
+              Layout, content, and structure in one place.
+            </p>
+
+            <div className="flex gap-4">
+              \
+              <div className="flex-1 flex flex-col gap-3 mt-2">
+                <div className="h-6 bg-slate-800/60 rounded-md" />
+                <div className="h-4 bg-slate-800/50 rounded-md" />
+                <div className="h-3 w-3/4 bg-slate-800/40 rounded-md" />
+
+                <div className="mt-2 flex flex-col gap-1">
+                  <div className="h-3 bg-slate-800/40 rounded-md" />
+                  <div className="h-3 bg-slate-800/40 rounded-md" />
+                  <div className="h-3 bg-slate-800/30 rounded-md w-4/5" />
                 </div>
               </div>
-
-              <div className="col-span-12 md:col-span-4 flex justify-center items-center h-full">
-                <motion.div
-                  ref={centerRef}
-                  variants={item}
-                  initial="hidden"
-                  animate="show"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.45 }}
-                  className="relative w-[320px] sm:w-[360px] md:w-[420px] h-[220px] sm:h-60 md:h-[280px] rounded-2xl flex items-center justify-center"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.016) 0%, rgba(255,255,255,0.008) 60%, rgba(0,0,0,0.22) 100%)",
-                    border: "1.6px solid rgba(59,130,246,0.12)",
-                    boxShadow:
-                      "0 18px 80px rgba(2,6,12,0.72), inset 0 1px 0 rgba(255,255,255,0.02), inset 0 -12px 40px rgba(0,0,0,0.45)",
-                    backdropFilter: "blur(6px)",
-                  }}
-                >
-                  <div className="text-center">
-                    <div
-                      className="text-5xl font-extrabold tracking-tight"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(90deg,#5fb4ff,#2fa8ff,#1bd1ff)",
-                        WebkitBackgroundClip: "text",
-                        backgroundClip: "text",
-                        color: "transparent",
-                      }}
-                    >
-                      PUI
-                    </div>
-                    <div className="mt-2 text-xs text-white/60">
-                      ProjectUI — Design System
-                    </div>
+              <div className="relative flex items-stretch">
+                <div className="w-px bg-slate-700" />
+                <div className="absolute inset-y-4 left-1/2 -translate-x-1/2 w-0.5 bg-linear-to-b from-transparent via-sky-400/70 to-transparent blur-[2px]" />
+              </div>
+              <div className="w-32">
+                <div className="relative h-20 bg-linear-to-br from-slate-900 to-black rounded-xl border border-slate-700/80 flex items-center justify-center overflow-hidden">
+                  <div className="h-12 w-12 rounded-full border border-slate-500/80 flex items-center justify-center text-sm text-slate-300">
+                    3D
                   </div>
-                </motion.div>
-              </div>
-
-              <div className="col-span-12 md:col-span-4 flex flex-col items-start pl-6 md:pl-10 justify-center h-full">
-                <div className="w-full max-w-[18rem] space-y-8">
-                  {nodesRight.map((n, i) => (
-                    <motion.button
-                      key={n.id}
-                      variants={item}
-                      initial="hidden"
-                      animate="show"
-                      onMouseEnter={() => setHoverRight(i)}
-                      onMouseLeave={() => setHoverRight(null)}
-                      onClick={() => handleNodeClick(n.id)}
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.12 }}
-                      className={nodeBtnClass}
-                    >
-                      <div
-                        ref={(el) => (rightIconRefs.current[i] = el)}
-                        className="w-9 h-9 rounded-full flex items-center justify-center bg-black/65 border border-sky-800/18 ring-1 ring-sky-900/20 z-10"
-                      >
-                        <div className="text-emerald-300">{n.icon}</div>
-                      </div>
-
-                      <div className="text-left flex-1">
-                        <div className="text-white font-semibold text-sm">
-                          {n.title}
-                        </div>
-                        <div className="text-xs text-white/60 mt-0.5">
-                          {n.subtitle}
-                        </div>
-                      </div>
-                    </motion.button>
-                  ))}
+                  <div className="absolute top-2 right-2 text-[10px] border border-slate-600/70 bg-slate-900/80 rounded-full px-1">
+                    ✕
+                  </div>
                 </div>
+
+                <div className="h-2 bg-slate-800/70 rounded-md mt-3" />
+                <div className="h-2 bg-slate-800/50 rounded-md mt-2 w-4/5" />
+                <div className="h-5 bg-slate-800/40 rounded-md mt-3" />
               </div>
             </div>
+          </motion.div>
 
-            <div className="absolute left-1/2 -translate-x-1/2 -bottom-9 z-0 w-80 h-12 rounded-full blur-3xl bg-sky-700/10" />
+          <div className="relative flex items-center gap-10">
+            <svg
+              className="absolute -left-10 top-1/2 -translate-y-1/2 h-44 w-44"
+              viewBox="0 0 200 200"
+            >
+              <defs>
+                <linearGradient
+                  id="rightFlow"
+                  x1="0%"
+                  y1="50%"
+                  x2="100%"
+                  y2="50%"
+                >
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+
+              <path
+                d="M10 100 C 70 50, 120 50, 180 100"
+                stroke="url(#rightFlow)"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              transition={{ delay: 0.23 }}
+              className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] min-w-60"
+            >
+              <p className="uppercase text-sky-300 tracking-[0.25em] text-sm">
+                IMPROVE
+              </p>
+
+              <ul className="mt-4 space-y-3 text-slate-300 text-sm">
+                <li className="flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                    1
+                  </span>
+                  Improved layout
+                </li>
+
+                <li className="flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                    2
+                  </span>
+                  Optimized sections
+                </li>
+
+                <li className="flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                    3
+                  </span>
+                  Faster iteration
+                </li>
+              </ul>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              transition={{ delay: 0.28 }}
+              className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 shadow-[0_0_25px_rgba(56,189,248,0.22)] min-w-[220px]"
+            >
+              <p className="text-lg font-semibold">Build the</p>
+              <p className="text-sky-300 text-sm">MVP, site, or app</p>
+
+              <div className="mt-3 flex items-center gap-3 text-sm text-slate-300">
+                <span className="w-7 h-7 rounded-full border border-sky-400/70 bg-sky-500/20 flex items-center justify-center text-sm">
+                  🎵
+                </span>
+                Launch-ready handoff
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        <motion.div
-          variants={item}
-          className="mt-8 sm:mt-10 flex flex-col items-center gap-4"
-        >
-          <div className="text-white/70 text-sm">
-            Design Seamless Interfaces — Build Tools
+        <div className="flex lg:hidden flex-col items-center gap-10 mt-10">
+          <div className="z-20 bg-[#07101b] px-6 py-3 rounded-full border border-sky-500/30 shadow-[0_0_35px_rgba(56,189,248,0.35)] flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.9)]" />
+            <span className="text-[15px] font-medium">Sketch</span>
           </div>
 
-          <div className="w-full max-w-4xl mt-2 flex flex-wrap items-center justify-center gap-4 text-white/40 text-sm px-4">
-            <div className="opacity-80 px-2">Webflow</div>
-            <div className="opacity-80 px-2">codect</div>
-            <div className="opacity-80 px-2">OpenAI</div>
-            <div className="opacity-80 px-2">HubSpot</div>
-            <div className="opacity-80 px-2">deepsot</div>
-            <div className="opacity-80 px-2">framer</div>
+          <div className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] w-full max-w-sm">
+            <p className="uppercase text-sky-300 tracking-[0.2em] font-medium flex items-center gap-2">
+              ⚡ Planning
+            </p>
+            <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+              Quickly outline flows, sections, and user journeys before
+              building.
+            </p>
           </div>
-        </motion.div>
+
+          <div className="rounded-2xl px-8 py-6 bg-[#07101b]/70 border border-sky-400/20 w-full max-w-sm">
+            <p className="uppercase text-sky-200 tracking-[0.2em] font-medium flex items-center gap-2">
+              🖊️ Sketch
+            </p>
+            <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+              Convert raw ideas into clean blocks you can later ship as UI.
+            </p>
+          </div>
+
+          <div className="relative rounded-[1.8rem] px-10 py-10 bg-[#07101b]/90 border border-sky-500/40 shadow-[0_0_60px_rgba(56,189,248,0.35)] w-full max-w-sm">
+            <p className="uppercase text-sky-300 tracking-[0.25em] text-[13px]">
+              Build and Prototype Faster
+            </p>
+
+            <p className="text-[12px] text-slate-400 mt-1 mb-6">
+              Layout, content, and structure in one place.
+            </p>
+
+            <div className="flex gap-4">
+              <div className="flex-1 flex flex-col gap-3 mt-2">
+                <div className="h-6 bg-slate-800/60 rounded-md" />
+                <div className="h-4 bg-slate-800/50 rounded-md" />
+                <div className="h-3 w-3/4 bg-slate-800/40 rounded-md" />
+
+                <div className="mt-2 flex flex-col gap-1">
+                  <div className="h-3 bg-slate-800/40 rounded-md" />
+                  <div className="h-3 bg-slate-800/40 rounded-md" />
+                  <div className="h-3 bg-slate-800/30 rounded-md w-4/5" />
+                </div>
+              </div>
+
+              <div className="relative flex items-stretch">
+                <div className="w-px bg-slate-700" />
+                <div className="absolute inset-y-4 left-1/2 -translate-x-1/2 w-0.5 bg-linear-to-b from-transparent via-sky-400/70 to-transparent blur-[2px]" />
+              </div>
+
+              <div className="w-28">
+                <div className="relative h-20 bg-linear-to-br from-slate-900 to-black rounded-xl border border-slate-700/80 flex items-center justify-center overflow-hidden">
+                  <div className="h-12 w-12 rounded-full border border-slate-500/80 flex items-center justify-center text-sm text-slate-300">
+                    3D
+                  </div>
+                  <div className="absolute top-2 right-2 text-[10px] border border-slate-600/70 bg-slate-900/80 rounded-full px-1">
+                    ✕
+                  </div>
+                </div>
+
+                <div className="h-2 bg-slate-800/70 rounded-md mt-3" />
+                <div className="h-2 bg-slate-800/50 rounded-md mt-2 w-4/5" />
+                <div className="h-5 bg-slate-800/40 rounded-md mt-3" />
+              </div>
+            </div>
+          </div>
+
+          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] w-full max-w-sm">
+            <p className="uppercase text-sky-300 tracking-[0.25em] text-sm">
+              IMPROVE
+            </p>
+
+            <ul className="mt-4 space-y-3 text-slate-300 text-sm">
+              <li className="flex items-center gap-2">
+                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  1
+                </span>
+                Improved layout
+              </li>
+
+              <li className="flex items-center gap-2">
+                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  2
+                </span>
+                Optimized sections
+              </li>
+
+              <li className="flex items-center gap-2">
+                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  3
+                </span>
+                Faster iteration
+              </li>
+            </ul>
+          </div>
+
+          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 shadow-[0_0_25px_rgba(56,189,248,0.22)] w-full max-w-sm">
+            <p className="text-lg font-semibold">Build the</p>
+            <p className="text-sky-300 text-sm">MVP, site, or app</p>
+
+            <div className="mt-3 flex items-center gap-3 text-sm text-slate-300">
+              <span className="w-7 h-7 rounded-full border border-sky-400/70 bg-sky-500/20 flex items-center justify-center text-sm">
+                🎵
+              </span>
+              Launch-ready handoff
+            </div>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
