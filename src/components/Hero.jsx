@@ -31,7 +31,7 @@ export default function Hero() {
         </div>
 
         <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight text-center">
-          Deliver Interfaces Faster &amp;{" "}
+          Deliver Interfaces Faster &nbsp;
           <span className="text-slate-200/90">Seamless</span> with{" "}
           <span
             className="bg-clip-text text-transparent"
@@ -59,6 +59,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-20" />
+
         <div className="hidden lg:flex relative w-full items-center justify-between gap-14 px-4">
           <div className="absolute inset-0 opacity-40 pointer-events-none">
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-sky-500/10 blur-[180px]" />
@@ -115,12 +116,12 @@ export default function Hero() {
                 variants={fadeUp}
                 initial="hidden"
                 animate="show"
-                className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] min-w-[260px]"
+                className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 min-w-[260px]"
               >
-                <p className="uppercase text-sky-300 tracking-[0.2em] font-medium flex items-center gap-2">
+                <p className="uppercase text-sky-300 tracking-[0.2em] font-medium">
                   ⚡ Planning
                 </p>
-                <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+                <p className="mt-2 text-slate-400 text-sm">
                   Quickly outline flows, sections, and user journeys before
                   building.
                 </p>
@@ -133,15 +134,16 @@ export default function Hero() {
                 transition={{ delay: 0.15 }}
                 className="rounded-2xl px-8 py-6 bg-[#07101b]/70 border border-sky-400/20 min-w-[260px]"
               >
-                <p className="uppercase text-sky-200 tracking-[0.2em] font-medium flex items-center gap-2">
+                <p className="uppercase text-sky-200 tracking-[0.2em] font-medium">
                   🖊️ Sketch
                 </p>
-                <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+                <p className="mt-2 text-slate-400 text-sm">
                   Convert raw ideas into clean blocks you can later ship as UI.
                 </p>
               </motion.div>
             </div>
           </div>
+
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -158,7 +160,6 @@ export default function Hero() {
             </p>
 
             <div className="flex gap-4">
-              \
               <div className="flex-1 flex flex-col gap-3 mt-2">
                 <div className="h-6 bg-slate-800/60 rounded-md" />
                 <div className="h-4 bg-slate-800/50 rounded-md" />
@@ -170,10 +171,12 @@ export default function Hero() {
                   <div className="h-3 bg-slate-800/30 rounded-md w-4/5" />
                 </div>
               </div>
+
               <div className="relative flex items-stretch">
                 <div className="w-px bg-slate-700" />
                 <div className="absolute inset-y-4 left-1/2 -translate-x-1/2 w-0.5 bg-linear-to-b from-transparent via-sky-400/70 to-transparent blur-[2px]" />
               </div>
+
               <div className="w-32">
                 <div className="relative h-20 bg-linear-to-br from-slate-900 to-black rounded-xl border border-slate-700/80 flex items-center justify-center overflow-hidden">
                   <div className="h-12 w-12 rounded-full border border-slate-500/80 flex items-center justify-center text-sm text-slate-300">
@@ -192,39 +195,12 @@ export default function Hero() {
           </motion.div>
 
           <div className="relative flex items-center gap-10">
-            <svg
-              className="absolute -left-10 top-1/2 -translate-y-1/2 h-44 w-44"
-              viewBox="0 0 200 200"
-            >
-              <defs>
-                <linearGradient
-                  id="rightFlow"
-                  x1="0%"
-                  y1="50%"
-                  x2="100%"
-                  y2="50%"
-                >
-                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-
-              <path
-                d="M10 100 C 70 50, 120 50, 180 100"
-                stroke="url(#rightFlow)"
-                strokeWidth="3"
-                fill="none"
-                strokeLinecap="round"
-              />
-            </svg>
-
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="show"
               transition={{ delay: 0.23 }}
-              className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] min-w-60"
+              className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 min-w-60"
             >
               <p className="uppercase text-sky-300 tracking-[0.25em] text-sm">
                 IMPROVE
@@ -232,21 +208,19 @@ export default function Hero() {
 
               <ul className="mt-4 space-y-3 text-slate-300 text-sm">
                 <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] text-emerald-300 flex items-center justify-center">
                     1
                   </span>
                   Improved layout
                 </li>
-
                 <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] text-emerald-300 flex items-center justify-center">
                     2
                   </span>
                   Optimized sections
                 </li>
-
                 <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                  <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] text-emerald-300 flex items-center justify-center">
                     3
                   </span>
                   Faster iteration
@@ -259,7 +233,7 @@ export default function Hero() {
               initial="hidden"
               animate="show"
               transition={{ delay: 0.28 }}
-              className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 shadow-[0_0_25px_rgba(56,189,248,0.22)] min-w-[220px]"
+              className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 min-w-[220px]"
             >
               <p className="text-lg font-semibold">Build the</p>
               <p className="text-sky-300 text-sm">MVP, site, or app</p>
@@ -275,31 +249,31 @@ export default function Hero() {
         </div>
 
         <div className="flex lg:hidden flex-col items-center gap-10 mt-10">
-          <div className="z-20 bg-[#07101b] px-6 py-3 rounded-full border border-sky-500/30 shadow-[0_0_35px_rgba(56,189,248,0.35)] flex items-center gap-2">
+          <div className="z-20 bg-[#07101b] px-6 py-3 rounded-full border border-sky-500/30 flex items-center gap-2 shadow-[0_0_35px_rgba(56,189,248,0.35)]">
             <span className="w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.9)]" />
             <span className="text-[15px] font-medium">Sketch</span>
           </div>
 
-          <div className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] w-full max-w-sm">
-            <p className="uppercase text-sky-300 tracking-[0.2em] font-medium flex items-center gap-2">
+          <div className="rounded-2xl px-8 py-6 bg-[#07101b]/80 border border-sky-400/30 w-full max-w-sm">
+            <p className="uppercase text-sky-300 tracking-[0.2em] font-medium">
               ⚡ Planning
             </p>
-            <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+            <p className="mt-2 text-slate-400 text-sm">
               Quickly outline flows, sections, and user journeys before
               building.
             </p>
           </div>
 
           <div className="rounded-2xl px-8 py-6 bg-[#07101b]/70 border border-sky-400/20 w-full max-w-sm">
-            <p className="uppercase text-sky-200 tracking-[0.2em] font-medium flex items-center gap-2">
+            <p className="uppercase text-sky-200 tracking-[0.2em] font-medium">
               🖊️ Sketch
             </p>
-            <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+            <p className="mt-2 text-slate-400 text-sm">
               Convert raw ideas into clean blocks you can later ship as UI.
             </p>
           </div>
 
-          <div className="relative rounded-[1.8rem] px-10 py-10 bg-[#07101b]/90 border border-sky-500/40 shadow-[0_0_60px_rgba(56,189,248,0.35)] w-full max-w-sm">
+          <div className="rounded-[1.8rem] px-10 py-10 bg-[#07101b]/90 border border-sky-500/40 w-full max-w-sm">
             <p className="uppercase text-sky-300 tracking-[0.25em] text-[13px]">
               Build and Prototype Faster
             </p>
@@ -343,28 +317,28 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 shadow-[0_0_35px_rgba(56,189,248,0.25)] w-full max-w-sm">
+          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/80 border border-sky-400/30 w-full max-w-sm">
             <p className="uppercase text-sky-300 tracking-[0.25em] text-sm">
               IMPROVE
             </p>
 
             <ul className="mt-4 space-y-3 text-slate-300 text-sm">
               <li className="flex items-center gap-2">
-                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] flex items-center justify-center text-emerald-300">
                   1
                 </span>
                 Improved layout
               </li>
 
               <li className="flex items-center gap-2">
-                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] flex items-center justify-center text-emerald-300">
                   2
                 </span>
                 Optimized sections
               </li>
 
               <li className="flex items-center gap-2">
-                <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/70 text-[10px] flex items-center justify-center text-emerald-300">
+                <span className="w-4 h-4 rounded-full border border-emerald-400/70 bg-emerald-500/20 text-[10px] flex items-center justify-center text-emerald-300">
                   3
                 </span>
                 Faster iteration
@@ -372,7 +346,7 @@ export default function Hero() {
             </ul>
           </div>
 
-          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 shadow-[0_0_25px_rgba(56,189,248,0.22)] w-full max-w-sm">
+          <div className="px-8 py-6 rounded-2xl bg-[#07101b]/70 border border-sky-400/20 w-full max-w-sm">
             <p className="text-lg font-semibold">Build the</p>
             <p className="text-sky-300 text-sm">MVP, site, or app</p>
 
